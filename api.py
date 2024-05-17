@@ -1,3 +1,5 @@
+# vercel_handler.py
+
 from flask import Flask, request, jsonify
 from tensorflow.keras.preprocessing import image
 import numpy as np
@@ -7,7 +9,6 @@ from io import BytesIO
 import tempfile
 from PIL import Image
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-from tensorflow.keras.preprocessing import image
 
 app = Flask(__name__)
 
@@ -69,7 +70,6 @@ def predict():
 
     print(predictions)
 
-
     # Example: Return the predicted class as JSON
     return jsonify({'predicted_class': int(predicted_class[0])})
 
@@ -88,6 +88,3 @@ def get_classes():
 
     # Example: Return the classes as JSON
     return jsonify({'classes': classes})
-
-if __name__ == '__main__':
-    app.run(debug=True)
