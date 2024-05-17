@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from tensorflow.keras.preprocessing import image
 import numpy as np
 import requests
@@ -10,6 +11,7 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing import image
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 # Global variable to hold the model instance
 loaded_model = None
@@ -67,27 +69,11 @@ def predict():
     predictions = loaded_model.predict(img_array)
     predicted_class = np.argmax(predictions, axis=1)
 
-    print(predictions)
-
+    print("Predicted class:", predicted_class[0])
 
     # Example: Return the predicted class as JSON
     return jsonify({'predicted_class': int(predicted_class[0])})
 
-# Route for accessing model classes
-@app.route('/classes')
-def get_classes():
-    load_keras_model()  # Ensure model is loaded
-
-    # Get the model's output shape or output names
-    output_shape = loaded_model.output_shape
-    # or output_names = loaded_model.output_names
-
-    # Extract classes from the output shape
-    num_classes = output_shape[1]  # Assuming the first dimension is batch size
-    classes = list(range(num_classes))  # Assuming classes are indexed from 0 to num_classes-1
-
-    # Example: Return the classes as JSON
-    return jsonify({'classes': classes})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
