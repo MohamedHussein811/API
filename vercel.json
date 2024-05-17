@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "builds": [{"src": "./index.js", "use":
-     "@vercel/node"}],
+    "builds": [{"src": "./api.py", "use":
+     "@vercel/static-build"}],
     "routes":[{"src": "/(.*)", "dest": "/"}]
 }
